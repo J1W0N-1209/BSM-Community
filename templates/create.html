@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create</title>
+    <link rel="stylesheet" href="../static/create.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">BSM Community</div>
+      <div class="hamburger">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+      <nav class="nav-bar">
+        <ul>
+          <li>
+            <a href="/" class="active">Home</a>
+          </li>
+          <li>
+            <a href="/search">Search</a>
+          </li>
+          <li>
+            <a href="/introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="/register">Register</a>
+          </li>
+          <li>
+            <a href="/login">Login</a>
+          </li>
+          <li>
+            <a href="/logout">Logout</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div style="text-align: center; margin-top: 20px">
+      <form method="post">
+        <input
+          type="text"
+          class="title"
+          name="title"
+          placeholder="제목을 입력해주세요"
+        />
+        <input
+          type="text"
+          class="context"
+          name="context"
+          placeholder="내용을 입력해주세요"
+        />
+        <div style="text-align: center; margin-top: 10px">
+          <button class="w-btn-outline w-btn-blue-outline" type="submit">
+            SUBMIT
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
