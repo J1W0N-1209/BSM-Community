@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BSM</title>
-    <link rel="stylesheet" href="../static/index.css " />
+    <title>Create</title>
+    <link rel="stylesheet" href="../static/create.css" />
   </head>
   <body>
     <header>
@@ -21,7 +21,7 @@
             <a href="/" class="active">Home</a>
           </li>
           <li>
-            <a href="/search" disabled>Search</a>
+            <a href="/search">Search</a>
           </li>
           <li>
             <a href="/introduction">Introduction</a>
@@ -38,27 +38,28 @@
         </ul>
       </nav>
     </header>
-    <div style="text-align: center; margin-top: 30px">
-      <img src="../static/BSSM_LOGO.jpg" alt="" />
+    <div style="text-align: center; margin-top: 20px">
+      <form method="post">
+        <input
+          type="text"
+          class="title"
+          name="title"
+          placeholder="제목을 입력해주세요"
+          value="{{ rows[0][1] }}"
+        />
+        <input
+          type="text"
+          class="context"
+          name="context"
+          placeholder="내용을 입력해주세요"
+          value="{{ rows[0][3] }}"
+        />
+        <div style="text-align: center; margin-top: 10px">
+          <button class="w-btn-outline w-btn-blue-outline" type="submit">
+            SUBMIT
+          </button>
+        </div>
+      </form>
     </div>
-    <a class="btn blue" href="/create"><strong>글 작성</strong></a>
-    <table>
-      <tr>
-        <th>Idx</th>
-        <th>Title</th>
-        <th>User</th>
-        <th>Date</th>
-      </tr>
-      {% for row in rows %}
-      <tr>
-        <td>{{ row[0] }}</td>
-        <td>
-          <a href="/read/{{ row[0] }}/">{{ row[1] }}</a>
-        </td>
-        <td>{{ row[2] }}</td>
-        <td>{{ row[4] }}</td>
-      </tr>
-      {% endfor %}
-    </table>
   </body>
 </html>

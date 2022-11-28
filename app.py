@@ -35,7 +35,7 @@ conn.close()
 def index():
   with sqlite3.connect("database.db") as con:
     cur = con.cursor()
-    cur.execute("SELECT * FROM Board")
+    cur.execute("SELECT * FROM Board ORDER By idx DESC")
     rows = cur.fetchall()
   return render_template('index.html',rows=rows)
 
@@ -103,12 +103,69 @@ def create():
     context = request.form["context"]
     username = '%s' % escape(session['username'])
     
-    with sqlite3.connect('database.db') as con:
+    with sqlite3.connect("database.db") as con:
       cur = con.cursor()
       cur.execute(f"INSERT INTO Board(title,username,context,date) VALUES('{title}','{username}','{context}',date())")
       con.commit()
     return redirect(url_for('index'))
 
+@app.route("/read/<int:idx>/",methods=["GET","POST"])
+def read(idx):
+  if request.method == "GET":
+    with sqlite3.connect("database.db") as con:
+      cur = con.cursor()
+      cur.execute(f"SELECT * FROM Board WHERE idx={idx}")
+      rows = cur.fetchall()
+    return render_template('read.html',rows=rows)
+
+@app.route("/update/<int:idx>",methods=["GET","POST"])
+def update(idx):
+  try:
+    username = '%s' % escape(session['username'])
+  except:
+    username = None
+  with sqlite3.connect("database.db") as con:
+    cur = con.cursor()
+    cur.execute(f"SELECT * FROM Board WHERE idx={idx}")
+    rows = cur.fetchall()
+  if rows[0][2] == username or username == "admin":
+    if request.method == "GET":
+      with sqlite3.connect("database.db") as con:
+        cur = con.cursor()
+        cur.execute(f"SELECT * FROM Board WHERE idx={idx}")
+        rows = cur.fetchall()
+      return render_template('update.html',rows=rows)
+    elif request.method == "POST":
+      title = request.form["title"]
+      context = request.form["context"]
+      
+      with sqlite3.connect("database.db") as con:
+        cur = con.cursor()
+        cur.execute(f"UPDATE Board set title='{title}',context='{context}' WHERE idx={idx}")
+        con.commit()
+      return redirect(url_for('index'))
+  else:
+    return redirect(url_for('index'))
+
+@app.route("/delete/",methods=["GET","POST"])
+def delete():
+  idx = request.form["idx"]
+  try:
+    username = '%s' % escape(session['username'])
+  except:
+    username = None
+  with sqlite3.connect("database.db") as con:
+    cur = con.cursor()
+    cur.execute(f"SELECT * FROM Board WHERE idx={idx}")
+    rows = cur.fetchall()
+  if rows[0][2] == username or username == "admin":
+    with sqlite3.connect("database.db") as con:
+      cur = con.cursor()
+      cur.execute(f"DELETE FROM Board WHERE idx={idx}")
+      con.commit()
+    return redirect(url_for('index'))
+  else:
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
   app.run(debug=True)
